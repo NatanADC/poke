@@ -12,6 +12,7 @@ describe('Suite de pruebas auth', ()=>{
             .get('/team')
             .end((err,res)=>{
                 chai.assert.equal(res.statusCode, 401);
+                done();
             });
     });
 
