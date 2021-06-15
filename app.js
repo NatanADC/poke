@@ -8,6 +8,18 @@ app.get('/',(req, res)=>{
     res.status(200).send('Hello world')
 });
 
+app.post('/team/pokemons',()=>{
+    res.status(200).send('Hello world')
+})
+
+app.delete('/team/pokemons/:pokeid', ()=>{
+    res.status(200).send('Hello world')
+})
+
+app.put('/team',()=>{
+    res.status(200).send('Hello world')
+})
+
 app.listen(port, ()=>{
     console.log('Server started at port 3000');
 })
