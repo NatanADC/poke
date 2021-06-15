@@ -12,6 +12,10 @@ app.post('/team/pokemons',()=>{
     res.status(200).send('Hello world')
 })
 
+app.get('/team', (req, res)=>{
+    res.status(200).send('Hello world')
+})
+
 app.delete('/team/pokemons/:pokeid', ()=>{
     res.status(200).send('Hello world')
 })
