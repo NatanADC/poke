@@ -11,7 +11,7 @@ describe('Suite de prueba e2e para el curso', ()=>{
             .get('/')
             .end((err, res)=>{
                 console.groupCollapsed('A')
-                chai.assert.equal(res.text, 'Hello world')
+                chai.assert.equal(res.text, 'Hello World!')
                 done();
             });
         console.log('B');
