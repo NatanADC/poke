@@ -1,10 +1,17 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+
 const usersController = require('./controllers/users');
+
+usersController.registerUser('Natan', '1234');
+
 require('./auth')(passport);
 
 const app = express();
+app.use(bodyParser.json());
+
 const port = 3000;
 
 app.get('/',(req, res)=>{
@@ -14,20 +21,23 @@ app.get('/',(req, res)=>{
 });
 
 app.post('/login', (req,res)=>{
+    if(!req.body){
+        return res.status(400).json({message: 'Missing data'});
+    } else if (!req.body.user || !req.body.password) {
+        return res.status(400).json({message: 'Missing data'});
+    }
     //comprobando las credenciales 
     usersController.checkUserCredentials(req.body.user, req.body.password, (err,result)=>{
-        if(!result){
+        if(err || !result){
             return res.status(401).json({message: 'Invalid credentials'});
         }
         // si son validos se genera el JWT y se devuelve 
-        const token = jwt.sign({userId: req.body.user});
+        const token = jwt.sign({userId: result}, 'secretPassword');
         res.status(200).json(
             {token: 'token'}
         )
     })
-    res.status(200).json(
-        {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.zX5MPQtbjoNAS7rpsx_hI7gqGIlXOQq758dIqyBVxxY'}
-    )
+    
 });
 
 app.post('/team/pokemons',()=>{
